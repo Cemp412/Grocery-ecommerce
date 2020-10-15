@@ -10,6 +10,8 @@
  <title>@yield('title')-online Grocery Store</title>
  <!-- Bootstrap toggle button for status -->
  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+ <!-- jquery -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{asset('asset/admin_assets/plugins/fontawesome-free/css/all.min.css')}}">
@@ -70,43 +72,42 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#table_id').DataTable();
-//     $(".ProductStatus").change(function(){
-//       var id = $(this).attr('rel');
-//       if($(this).prop("checked")==true){
-//         $.ajax({
-//           headers:{
-//             'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-//           },
-//           type : 'post',
-//           url : '/admin/update-product-status',
-//           data : {status:'1', id:id},
+  //update category status
+             $(".CategoryStatus").change(function(){
+              var id = $(this).attr('rel');
+              if ($(this).prop("checked")==true) {
+                $.ajax({
+                  headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  type : 'get',
+                  url : '/admin/update-category-status',
+                  data : {status:'1',id:id},
+                  success : function(data){
+                    $("#message_success").show();
+                    setTimeout(function(){$("#message_success").fadeOut('slow');}, 2000);
+                  },error:function(){
+                    alert("error");
+                  }
+                });
 
-//           success : function(data){
-//             $("#message_success").show();
-//             setTimout(function() { $("#message_success").fadeout('slow'); }, 2000);
-//           },error:function(){
-//             alert("Error");
-//           }
-//         });
-
-//       }else{
-//         $.ajax({
-//           headers:{
-//             'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-//           },
-//           type : 'post',
-//           url : '/admin/update-product-status',
-//           data : {status:'0', id:id},
-
-//           success : function(resp){
-//             $("#message_error").show();
-//             setTimout(function() { $("#message_error").fadeout('slow'); }, 2000);
-//           },error:function(){
-//             alert("Error");
-//           }
-//         });
-//       }
-//     });
+              }else{
+                $.ajax({
+                  headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  type : 'get',
+                  url : '/admin/update-category-status',
+                  data : {status:'0',id:id},
+                  success : function(resp){
+                    $("#message_error").show();
+                    setTimeout(function(){$("#message_error").fadeOut('slow');}, 2000);
+                  },error:function(){
+                    alert("error");
+                  }
+                });
+              }
+            });
 } );
 
 
@@ -128,7 +129,36 @@ $('body').on('change', '#ProductStatus', function(){
   }
  })
 });
+
+
+// Add or Remove Fields dynamically
+$(document).ready(function(){
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_button'); //Add button selector
+    var wrapper = $('.field_wrapper'); //Input field wrapper
+    var fieldHTML = '<div style="display:flex;"><input type="text" name="sku[]" id="sku" placeholder="SKU" class="form-control" style="width: 120px; margin-right:5px;margin-top: 5px;" /> <input type="text" name="price[]" id="price" placeholder="PRICE" class="form-control" style="width: 120px; margin-right:5px;margin-top: 5px;" /><input type="text" name="stock" id="stock" placeholder="STOCK" class="form-control" style="width: 120px; margin-right:5px;margin-top: 5px;" /><a href="javascript:void(0);" class="remove_button">REMOVE</a></div>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+    
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+});
+
 </script>
+@include('sweetalert::alert')
+
 
 </body>
 </html>

@@ -38,7 +38,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{url('/admin_dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active"><a href="{{url('/admin/edit-category/'.$CategoryDetails->id)}}">Edit Category</li>
+              <li class="breadcrumb-item active"><a href="{{url('#')}}">Edit Category</li>
             </ol>
           </div>
          
@@ -72,20 +72,20 @@
               <form class="form-group" action="{{url('/admin/edit-category/'.$CategoryDetails->id)}}" method="post">
                 {{csrf_field()}}
               <div class="form-group">
-                <label for="inputName">Category Name</label>
-                <input type="text" id="inputName" name="name" value="{{$CategoryDetails->name}}" required class="form-control">
+                <label for="name">Category Name</label>
+                <input type="text"  value="{{$CategoryDetails->name}}"  name="name" class="form-control">
               </div>
 
                <div class="form-group">
-                <label for="inputParent_id">Parent Category </label>
-                <select class="form-control custom-select" name="parent_id"  id="parent_id">
-                  <option selected disabled>Select one</option>
-                  <option value="0">Parent_id</option>
-                  @foreach($levels as $val)
-                  <option value="{{$val->id}}" @if($val->id==$CategoryDetails->parent_id) selected @endif>{{$val->name}}</option>
-                  @endforeach
-                </select>
-              </div>
+                                 <label>Parent Category </label>
+                                 <select name="parent_id" id="parent_id" class="form-control">
+                                  <option value="0" class="form-control">Parent Category</option>
+                                  @foreach($levels as $val)
+                                  <option value="{{$val->id}}" @if($val->id==$CategoryDetails->parent_id) selected @endif>{{$val->name}}</option>
+                                  @endforeach
+                                 
+                                 </select>
+                              </div>
 
                <div class="form-group">
                 <label for="inputCode">Category url</label>

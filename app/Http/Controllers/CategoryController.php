@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
@@ -33,16 +34,32 @@ class CategoryController extends Controller
         if($request->isMethod('post')){
             $data = $request->all();
             Category::where(['id'=>$id])->update([
-                'name' =>$data['category_name'],
+                'name' =>$data['name'],
                 'parent_id' => $data['parent_id'],
                 'description' => $data['description'],
                 'url' => $data['url'],
+                
             ]);
             return redirect('/admin/view_Categories')->with('flash_message_success', 'Category updated Successfully...!!');
         }
 
-        $levels = Category::where(['id' =>$id])->first();
-        $CategoryDetails = Category::where(['parent_id'=>0])->get();
+        $CategoryDetails = Category::where(['id' =>$id])->get()->first();
+         $levels = Category::where(['parent_id'=> 0])->get();
+        // print_r($levels);
+        // print_r($CategoryDetails);
+        // die;
        return view('admin.category.editCategory', compact('levels', 'CategoryDetails'));
+    }
+
+    public function deleteCategory( $id=null){
+      Category::where(['id'=> $id])->delete();
+      Alert::Success('Deleted', 'Success Message');
+      return redirect()->back();
+    }
+
+  public function updateStatus(Request $request, $id=null)
+    {
+        $data = $request->all();
+        Category::where('id', $data['id'])->update(['status' =>$data['status']]);
     }
 }

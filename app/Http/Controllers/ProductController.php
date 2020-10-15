@@ -169,4 +169,21 @@ class ProductController extends Controller
        // $data = $request->all();
        // Products::where(['id' => $id])->update(['status' =>$data['status']]);
     }
+
+    public function products($id= null){
+        $ProductDetails = Product::where('id', $id)->first();
+         // echo $ProductDetails; die;
+        return view('grocery.product_detail', compact('ProductDetails'));
+    }
+
+    public function add_attributes(Request $request, $id=null){
+        $ProductDetails = Product::where(['id' => $id])->first();
+        if($request->isMethod('post')){
+            $data= $request->all();
+            echo "<pre>" ;
+            print_r($data);
+            die;
+        }
+        return view('admin.products.add_attributes', compact('ProductDetails'));
+    }
 }

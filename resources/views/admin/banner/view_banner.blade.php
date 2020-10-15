@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'View Categories')
+@section('title', 'View Banners')
 @section('content')
   <!-- Content Wrapper. Contains page content -->
  
@@ -12,12 +12,12 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <i class="fa fa-eye"></i>
-            <h1>View Categories</h1>
+            <h1>View Banners</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{url('/admin_dashboard')}}">Home</a></li>
-              <li class="breadcrumb-item active"><a href="{{url('/admin/add_category')}}"> Add Category</a> </li>
+              <li class="breadcrumb-item active"><a href="{{url('/admin/add_banners')}}"> Add Banner</a> </li>
             </ol>
           </div>
         </div>
@@ -59,7 +59,7 @@
         <div class="card-header">
           <h3 class="card-title">
             <i class="fa fa-plus"></i>
-            <a href="{{url('/admin/add_category')}}">Add Category</a></h3>
+            <a href="{{url('/admin/add_banners')}}">Add Banner</a></h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fas fa-minus"></i></button>
@@ -75,84 +75,79 @@
 
                  <thead>
                   <tr>
-                      
                       <th>
                         Id
                       </th>
+                     
                       <th>
-                         Category Name
+                         Name
                       </th>
-                      <th>
-                        Parent Id
-                      </th>
+                      
                         
                       </th>
-                      <th style="width:25%;" class="text-center">
-                         url
+                      <th>
+                        Sort order
                       </th>
                       <th>
-                        Category Description
+                        Content
                       </th>
-                      <th class="text-center">
-                          Status
+                       
+                     
+                      <th>
+                        Image
                       </th>
                       <th class="text-center">
                       	Action
                       </th>
                   </tr>
               </thead>
+               @foreach($banner as $ban)
               <tbody>
-                   @foreach($categories as $category)
+                   
                   <tr class="text-center">
                   	
                       <td class="text-center">
-                          {{$category->id}}
+                          {{$ban->id}}
                       </td>
                       <td class="text-center">
                           <a>
-                              {{$category->name}}
+                           {{$ban->name}}
                           </a>
                           <br/>
                          <!--  <small>
                            Created 01.01.2019
                           </small> -->
                       </td>
+                      <td class="text-center">
+                        {{$ban->sort_order}}
+                      </td>
                       <td>
-                        {{$category->parent_id}}
+                        {{$ban->content}}
+                      </td>   
+                    
+                       <td class="text-center text-align-justify" >
+                        @if(!empty($ban->image))
+                                  <img alt="Avatar" class="table-avatar" src="{{asset('uploads/banners/'.$ban->image)}}" style="width: 300px; height: 200px">
+                            
+                              @endif
+                             
                       </td>
                      
-
-                       <td class="text-center">
-                      	{{$category->url}}
-                      </td>
-
-
-                       <td class="text-center text-align-justify" >
-                      	{{$category->description}}
-                      </td>
-                      <td>
-                         
-                            <input type="checkbox" class="CategoryStatus btn btn-success" rel="{{$category->id}}" data-toggle="toggle" data-on="Enabled" data-off="Disabled" data-onstyle="success" data-offstyle="danger"
-                         @if($category['status']=="1") checked @endif >
-                         <div id="myElem" style="display: none;" class="alert alert-success">Status Enabled</div>
-
-                      </td>
-
 
 
                      
                       <td class="project-actions text-right">
-                          <a class="btn btn-primary btn-sm" href="#">
+                          <a class="btn btn-primary btn-sm" href="{{url('/admin/banners/'.$ban->id)}}">
                               <i class="fas fa-folder">
                               </i>
                               View
                           </a>
-                          <a class="btn btn-info btn-sm" href="{{url('/admin/edit-category/'.$category->id)}}">
+                          <a class="btn btn-info btn-sm" href="{{url('/admin/edit-banner/'.$ban->id)}}">
                               <i class="fas fa-pencil-alt">
                               </i>
                               Edit
                           </a>
-                          <a class="btn btn-danger btn-sm" href="{{url('/admin/delete-category/'.$category->id)}}">
+                          <a class="btn btn-danger btn-sm" href="{{url('/delete/'.$ban->id)}}">
                               <i class="fas fa-trash">
                               </i>
                               Delete
@@ -160,8 +155,9 @@
                       </td>
 
                   </tr>
-                   @endforeach
+                 
                   </tbody>
+                  @endforeach
               </table>
           </div>
       </div>

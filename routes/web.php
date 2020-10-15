@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::match(['get', 'post'], '/', 'IndexController@index');
 Route::match(['get', 'post'], '/admin', 'AdminController@login');
+Route::get('/products/{id}', 'ProductController@products');
 
 
 Auth::routes();
@@ -31,6 +32,10 @@ Route::group(['middleware' =>['auth']], function(){
      Route::match(['get', 'post'], '/admin/add_category', 'CategoryController@addCategory');
      Route::get('/admin/view_Categories', 'CategoryController@viewCategories');
      Route::match(['get', 'post'], '/admin/edit-category/{id}', 'CategoryController@editCategory');
+     Route::match(['get', 'post'], '/admin/delete-category/{id}', 'CategoryController@deleteCategory');
+     Route::get('/admin/update-category-status', 'CategoryController@updateStatus');
+
+
 
 
 	//Product Routes
@@ -39,6 +44,16 @@ Route::group(['middleware' =>['auth']], function(){
 	Route::match(['get', 'post'], '/admin/edit-product/{id}', 'ProductController@edit_product');
 	Route::match(['get', 'post'], '/admin/delete-product/{id}', 'ProductController@delete_product');
 	Route::get('/admin/update-product-status/{id}/{s}', 'ProductController@updateStatus')->name('ProductStatus');
+
+
+    // ********Product Attributes
+    Route::match(['get', 'post'], '/admin/add_attributes/{id}', 'ProductController@add_attributes');
+
+	//******* Routes for banners
+	Route::match(['get', 'post'], '/admin/add_banners', 'BannerController@add_banners');
+	Route::match(['get', 'post'], '/admin/banners', 'BannerController@banners');
+	Route::match(['get', 'post'], '/admin/edit_banner/{id}' , 'BannerController@edit_banner');
+	Route::get('/delete/{id}', 'BannerController@delete_banner');
 
 });
 

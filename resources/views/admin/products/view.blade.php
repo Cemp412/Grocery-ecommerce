@@ -147,9 +147,7 @@
                           </small>
                       </td> -->
                       <td class="project-state">
-                         <!-- <input type="checkbox" class="ProductStatus btn btn-success" rel="{{$pro->id}}" data-toggle="toggle" data-on="Enabled" data-off="Disabled" data-onstyle="success" data-offstyle="danger"
-                         @if($pro['status']=="1") checked @endif >
-                         <div id="myElem" style="display: none;" class="alert alert-success">Status Enabled</div> -->
+                         
 
 
                          <input type="checkbox" data-toggle ="toggle" data-on="Active" data-off="Inactive" data-onstyle="success" data-offstyle="danger" id="ProductStatus" data-id="{{$pro->id}}" {{$pro->status == 1 ? 'checked':'' }} >
@@ -159,10 +157,10 @@
 
                      
                       <td class="project-actions text-right">
-                          <a class="btn btn-primary btn-sm" href="#">
-                              <i class="fas fa-folder">
+                          <a class="btn btn-primary btn-sm" href="{{url('/admin/add_attributes/'.$pro->id)}}">
+                              <i class="fas fa-list">
                               </i>
-                              View
+                              Attributes
                           </a>
                           <a class="btn btn-info btn-sm" href="{{url('/admin/edit-product/'.$pro->id)}}">
                               <i class="fas fa-pencil-alt">
